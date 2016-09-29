@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>practise</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="assets/test.css">
+</head>
+<body>
+    <div class="box">
+        <div class="title-box">
+        </div>
+        <div class="content-box">
+            <div class='left-panel'>
+                <div id="loadicon">
+                loading...
+                </div>
+                <div class='inputs'>
+                    <h2>Enter your outputs here</h2>
+                   <span id='input-entries'> Enter your seed number </span> <input id='seed' class='input-field' type="text" name="seed" maxlength='4' placeholder="Enter seed">
+                   Min Length <input class='input-field left' id='min' type="text" maxlength="2" name="minlength" placeholder="min">
+                    Max Length <input class='input-field' id="max" type="text" maxlength='2' name="maxlength" placeholder="max">
+                    <input type="submit" name="submit" onclick="wordGen( document.getElementById('seed').value, document.getElementById('max').value, document.getElementById('min').value)" value="Generate">
+                </div>
+                <div class='wordgen-output'>
+                    <textarea rows="25" cols="35"></textarea>
+                </div>
+            </div>
+            <div class='right-panel'>
+
+                <div class="outputs">
+                    <h2>Enter your Regular Expression here</h2>
+                     <span class="regx">/</span> <input id='expression' class='output-field' type="text" name="expression" placeholder="regx"> <span class="regx">/</span>
+                     <input class="regx" id="modify" type="text" name="modifier" placeholder="gmi">
+                     <br>
+                    <input type="submit" name="submit" onclick="matcher(document.getElementById('expression').value, document.getElementById('modify').value)" value="Find">
+                </div>
+                <div class="regx-output">
+                    <textarea rows="25" cols="35"></textarea>
+
+                </div>
+            </div>
+
+
+        </div>
+        <footer class='foot'></footer>
+    </div>
+    <script type="text/javascript" src='assets/regex.js'></script>
+</body>
+</html>
