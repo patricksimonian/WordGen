@@ -165,12 +165,12 @@ function matcher(expression, modifier) {
     if(modifier) {
       while ((array = regx.exec(stringToTest)) != null) {
       //var substring = stringToTest.substring(array.index, regx.lastIndex);
-      stringsToMatch[1].innerHTML += "matched " +array[0] +" at index " + array.index + /*" within " + substring +*/ "\n" ;
+      stringsToMatch[1].innerHTML += "matched \"" +array[0] +"\" at index " + array.index + /*" within " + substring +*/ "\n" ;
       }
       if(array === null) {
         stringsToMatch[1].innerHTML += "No more matches found."
       }
   } else {
-    stringsToMatch[1].innerHTML += regx.exec(stringToTest);
+    stringsToMatch[1].innerHTML += "matched \"" + regx.exec(stringToTest) + "\" at index "+ regx.exec(stringToTest).index;
   }
 }
