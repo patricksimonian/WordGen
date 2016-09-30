@@ -40,6 +40,7 @@ test.css
 /*++++++++++++++++++++++++++++++++++++++++*/
 .inputs{
     margin: auto;
+    float: left;
     width: 300px;
     color: #23b7b9;
 }
@@ -93,6 +94,7 @@ input[type=submit]{
 
 /*+++++++++++++++++++++++++++++++++++*/
 .wordgen-output{
+    float: right;
     width: 400px;
     margin: auto;
     padding: 25px;
