@@ -29,18 +29,27 @@
  var commonBook = {
       twoletter: ['et', 're', 'ph', 'io', 'er', 'th','sh', 'ie', 'ei', 'ou','ed','le'],
       threeletter: ['eau', 'ier', 'eir', 'ein', 'ien','ear', 'eer', 'ion'],
-      end: ['end', 'ing', 'eet', 'ert', 'ard', 'age', 'ly']
+      end: ['end', 'ing', 'eet', 'ert', 'ard', 'age', 'ly', 'ion']
 
   }
   var symbolBook = {
     regularSymbols: ["#", "@", "!", "$", "%", "&", "?", ":", ";", "~"]
   }
   //grammarBook = {}
+
+
 function bigFunction() {
-      wordGen( document.getElementById('seed').value, document.getElementById('max').value, document.getElementById('min').value,
-       document.getElementById('commonBook').checked, document.getElementById('v-ratio').value, document.getElementById('numbers').checked,
-       document.getElementById('symbol').checked, $('input[name="caps"]:checked').val())
-    }
+  var seed = $('#seed').val();
+  var max = $('#max').val();
+  var min = $('#min').val();
+  var commonBook = $('#commonBook').is(':checked');
+  var v_ratio = $('#v-ratio').val();
+  var numbers = $('#numbers').is(':checked');
+  var symbol = $('#symbol').is(':checked');
+  var capsType = $('input[name="caps"]:checked').val();
+
+  wordGen(seed, max, min, commonBook, v_ratio, numbers, symbol, capsType);
+ }
 
 function wordGen(seed, maxLength, minLength, useCommonBook, ratioOfVowels, useNumbers, useSymbols, capsType ) {
 
@@ -54,6 +63,7 @@ function wordGen(seed, maxLength, minLength, useCommonBook, ratioOfVowels, useNu
   var selectedMinLength = minLength;
   var mainArray = [];
   var textAreaElm = getDocument("wordgen-printout");
+
   textAreaElm.innerHTML = ""; //reset
 
 
@@ -116,11 +126,11 @@ function wordGen(seed, maxLength, minLength, useCommonBook, ratioOfVowels, useNu
     var chosenConsonants = [];
     var totalLength = fromLength;
     var diceRoll = null;
-    ratioOfVowels = Math.abs(ratioOfVowels);
 
     if(ratioOfVowels === "") {
       ratioOfVowels = .4;
     }
+    ratioOfVowels = Math.abs(ratioOfVowels);
       var numberofVowels = Math.floor(totalLength * ratioOfVowels);
       //find all consonants needed
       for(var i = 0; i < (totalLength - numberofVowels); i++){
