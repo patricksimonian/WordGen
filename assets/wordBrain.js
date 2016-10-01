@@ -29,14 +29,18 @@
  var commonBook = {
       twoletter: ['et', 're', 'ph', 'io', 'er', 'th','sh', 'ie', 'ei', 'ou','ed','le'],
       threeletter: ['eau', 'ier', 'eir', 'ein', 'ien','ear', 'eer', 'ion'],
-      end: ['end', 'ing', 'eet', 'ert', 'ard', '']
+      end: ['end', 'ing', 'eet', 'ert', 'ard', 'age', 'ly']
 
   }
   var symbolBook = {
     regularSymbols: ["#", "@", "!", "$", "%", "&", "?", ":", ";", "~"]
   }
   //grammarBook = {}
-
+function bigFunction() {
+      wordGen( document.getElementById('seed').value, document.getElementById('max').value, document.getElementById('min').value,
+       document.getElementById('commonBook').checked, document.getElementById('v-ratio').value, document.getElementById('numbers').checked,
+       document.getElementById('symbol').checked, $('input[name="caps"]:checked').val())
+    }
 
 function wordGen(seed, maxLength, minLength, useCommonBook, ratioOfVowels, useNumbers, useSymbols, capsType ) {
 
@@ -57,7 +61,8 @@ function wordGen(seed, maxLength, minLength, useCommonBook, ratioOfVowels, useNu
      for (var i = 0; i < seed; i++) {
 
       var wordLength = getWordLength(selectedMaxLength, selectedMinLength);
-      mainArray.push(makeWord(wordLength, isUsedCommonBook, vRatio, isUseNumbers, isUseSymbols, whichCaps));
+      var word = makeWord(wordLength, isUsedCommonBook, vRatio, isUseNumbers, isUseSymbols, whichCaps);
+      mainArray.push(word);
 
      }
 
@@ -111,6 +116,7 @@ function wordGen(seed, maxLength, minLength, useCommonBook, ratioOfVowels, useNu
     var chosenConsonants = [];
     var totalLength = fromLength;
     var diceRoll = null;
+    ratioOfVowels = Math.abs(ratioOfVowels);
 
     if(ratioOfVowels === "") {
       ratioOfVowels = .4;
@@ -128,9 +134,9 @@ function wordGen(seed, maxLength, minLength, useCommonBook, ratioOfVowels, useNu
           consonant = letterBook.zero[Math.floor(((Math.random()*letterBook.zero.length) /*+ 1*/))];
         }
         //switch to uppercase if called
-         if(capsType === "all") {
+         if(capsType === "allcaps") {
             consonant = consonant.toUpperCase();
-          } else if (capsType === "some") {
+          } else if (capsType === "somecaps") {
             if(Math.random() > Math.random()) {
               consonant = consonant.toUpperCase()
             }
@@ -149,9 +155,9 @@ function wordGen(seed, maxLength, minLength, useCommonBook, ratioOfVowels, useNu
           vowel = vowelBook.zero;
         }
         //switch to uppercase if called
-          if(capsType === "all") {
+          if(capsType === "allcaps") {
             vowel = vowel.toUpperCase();
-          } else if (capsType === "some") {
+          } else if (capsType === "somecaps") {
             if(Math.random() > Math.random()) {
               vowel = vowel.toUpperCase()
             }
@@ -173,49 +179,52 @@ function wordGen(seed, maxLength, minLength, useCommonBook, ratioOfVowels, useNu
       //join array to word that is to be returned
       returnedWord = chosenConsonants.join('');
       //modify word with numbers if necessary
-      if(useNumbers === false && totalLength > 2) {
-        var x = totalLength;
-       var numberofNumbers = Math.floor(Math.random()*x);
+      if(useNumbers === true && totalLength > 2) {
+       var numberofNumbers = Math.floor(Math.random()*totalLength);
        var newWord = null;
-        for(var i = 0; i < numberofNumbers; i++) {
+       if(numberofNumbers > 0) {
+          for(var i = 0; i < numberofNumbers; i++) {
 
-          var replacedChar = returnedWord.charAt(Math.floor((Math.random()*returnedWord.length) + 1))
-          var replacedNum = Math.floor(Math.random()*10)
-          newWord = returnedWord.replace(replacedChar, replacedNum);
+            var replacedChar = returnedWord.charAt(Math.floor((Math.random()*totalLength) + 1))
+            var replacedNum = Math.floor(Math.random()*10)
+            newWord = returnedWord.replace(replacedChar, replacedNum);
+          }
+          returnedWord = newWord;
         }
-        returnedWord = newWord;
       }
 
       //modify word with symbols if necessary
-      if(useSymbols === false && totalLength > 2) {
-       var numberofSymbols = Math.floor(returnedWord.length*(Math.random()));
+      if(useSymbols === true && totalLength > 2) {
+       var numberofSymbols = Math.floor(totalLength*(Math.random()));
        var newWord = null;
-        for(var i = 0; i < numberofSymbols; i++) {
+       if(numberofSymbols > 0) {
+          for(var i = 0; i < numberofSymbols; i++) {
 
-          var replacedChar = returnedWord.charAt(Math.floor((Math.random()*returnedWord.length) + 1))
-          var replacedSymbol = symbolBook.regularSymbols[Math.floor((symbolBook.regularSymbols.length*Math.random()))]
-          newWord = returnedWord.replace(replacedChar, replacedSymbol);
+            var replacedChar = returnedWord.charAt(Math.floor((Math.random()*returnedWord.length) + 1))
+            var replacedSymbol = symbolBook.regularSymbols[Math.floor((symbolBook.regularSymbols.length*Math.random()))]
+            newWord = returnedWord.replace(replacedChar, replacedSymbol);
+          }
+          returnedWord = newWord;
         }
-        returnedWord = newWord;
       }
     //if dice roll is greater than .5 , a commonbook value will be inserted
     diceRoll = Math.random();
-    if(useCommonBook === false && diceRoll >= .5 && totalLength > 2) {
+    if(useCommonBook === true && diceRoll >= .5 && totalLength > 2) {
       diceRoll = Math.random();
       var insertedFromComBook = "";
       var insertAtEnd = false;
       var indexToSplice = null;
       var newWord = ""
       if(diceRoll > .66){
-        insertedFromComBook = commonBook.end[((Math.random()*commonBook.end.length) + 1)]
+        insertedFromComBook = commonBook.end[(Math.floor((Math.random()*commonBook.end.length)))]
         insertAtEnd = true;
-        indexToSplice = 2;
+        indexToSplice = insertedFromComBook.length;
       } else if(diceRoll < .33) {
-        insertedFromComBook = commonBook.twoletter[((Math.random()*commonBook.twoletter.length) + 1)]
-        indexToSplice = 2;
+        insertedFromComBook = commonBook.twoletter[(Math.floor((Math.random()*commonBook.twoletter.length)))]
+        indexToSplice = insertedFromComBook.length;
       } else {
-        insertedFromComBook = commonBook.threeletter[((Math.random()*commonBook.threeletter.length) + 1)]
-        indexToSplice = 2;
+        insertedFromComBook = commonBook.threeletter[(Math.floor(Math.random()*commonBook.threeletter.length))]
+        indexToSplice = insertedFromComBook.length;
       }
 
       if(insertAtEnd === true) {
@@ -230,21 +239,13 @@ function wordGen(seed, maxLength, minLength, useCommonBook, ratioOfVowels, useNu
       if(newWord.charAt[0] === "q" && diceRoll > .33) {
         newWord = newWord.replace(newWord.charAt[1], "u");
       }
-      if(newWord = undefined){
-       return returnedWord;
 
-      } else {
-       return returnedWord = newWord;
-      }
+      returnedWord = newWord;
+
    }
+   return returnedWord;
+  }
 
-  function errorChecker(variable, variableType) {
-     if(typeof variable != 'number') {
-        textAreaElm.innerHTML += errorCode(3);
-      }
-      if(variableType == "vowel" && variable > 1 ){ }
-     }
- }
   function errorCode(code) {
     var errormessage = "";
     switch(code) {
@@ -260,3 +261,10 @@ function wordGen(seed, maxLength, minLength, useCommonBook, ratioOfVowels, useNu
     }
     return errormessage;
   }
+ /* function errorChecker(variable, variableType) {
+     if(typeof variable != 'number') {
+        textAreaElm.innerHTML += errorCode(3);
+      }
+      if(variableType == "vowel" && variable > 1 ){
+     }
+  }*/

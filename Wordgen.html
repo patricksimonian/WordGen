@@ -4,10 +4,9 @@
   <title>practise</title>
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="assets/test.css">
-  <script type="text/javascript">
-    function bigFunction(){
-        wordGen( document.getElementById('seed').value, document.getElementById('max').value, document.getElementById('min').value, document.getElementById("commonBook").value, document.getElementById("v-ratio").value, document.getElementById("numbers").value, document.getElementById("symbol").value);
-      }
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="assets/wordBrain.js">
+
   </script>
 </head>
 <body>
@@ -25,15 +24,15 @@
            Min Length <input class='input-field left' id='min' type="text" maxlength="2" name="minlength" placeholder="min">
            Max Length <input class='input-field' id="max" type="text" maxlength='2' name="maxlength" placeholder="max">
            Vowel Ratio <input class='input-field' id="v-ratio" type="text" maxlength="3" name='v-ratio' placeholder="vowel ratio">
-                      <input id="commonBook" type="checkbox" name="commonBook" value="true"> Include some common english<br>    word structure <br>
-                      <input id="symbol" type="checkbox" name="symbols" value="true"> Include symbols <br>
-                      <input id="numbers" type="checkbox" name="numbers" value="true"> Include numbers
-                    <form>
-                      <input type="radio" name="allcaps" value="allcaps"> All Captals<br>
-                      <input type="radio" name="somcaps" value="somecaps"> Random Caps<br>
-                      <input type="radio" name="nocaps" value="none" checked> No Caps<br>
+                      <input id="commonBook" type="checkbox" name="commonBook" > Include some common english<br>    word structure <br>
+                      <input id="symbol" type="checkbox" name="symbols" > Include symbols <br>
+                      <input id="numbers" type="checkbox" name="numbers" > Include numbers
+                    <form >
+                      <input type="radio" name="caps" value="allcaps"> All Captals<br>
+                      <input type="radio" name="caps" value="somecaps"> Random Caps<br>
+                      <input type="radio" name="caps" value="none" checked> No Caps<br>
                     </form>
-                      <input type="submit" name="submit" onclick="bigFunction()"  value="Generate">
+                      <input type="submit" name="submit" onclick="bigFunction()" value="Generate">
                 </div>
                 <div class='wordgen-output'>
                     <textarea id="wordgen-printout" rows="25" cols="35"></textarea>
@@ -58,10 +57,6 @@
         </div>
         <footer class='foot'></footer>
     </div>
-    <script type="text/javascript" src='assets/wordBrain.js'>
-      function bigFunction(){
-        wordGen( document.getElementById('seed').value, document.getElementById('max').value, document.getElementById('min').value, document.getElementById("commonBook").value, document.getElementById("v-ratio").value, document.getElementById("numbers").value, document.getElementById("symbol").value);
-      }
-    </script>
+
 </body>
 </html>
